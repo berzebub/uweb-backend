@@ -58,7 +58,7 @@
     </div>
 
     <div class="col-12 self-end">
-      <div style="background-color:#020B3B;" class="container q-py-md">
+      <div style="background-color:#020B3B;" class="q-py-md">
         <q-toolbar class="q-px-sm items-center">
           <div class="q-mx-lg" style="max-width:180px">
             <q-img style="width:162px" src="../../public/footer-logo.png"></q-img>

@@ -6,7 +6,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above content-class="bg12 " :width="100">
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      :breakpoint="200"
+      content-class="bg12 "
+      :width="100"
+    >
       <div class="row">
         <div class="col-12" align="center">
           <div
@@ -89,7 +95,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view class="container" />
     </q-page-container>
   </q-layout>
 </template>
