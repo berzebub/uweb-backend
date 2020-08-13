@@ -1,9 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import routes from "./routes";
 
-import routes from './routes'
+Vue.use(VueRouter);
 
-Vue.use(VueRouter)
+Vue.use(VueAxios, axios);
 
 /*
  * If not building with SSR mode, you can
@@ -14,7 +17,7 @@ Vue.use(VueRouter)
  * with the Router instance.
  */
 
-export default function (/* { store, ssrContext } */) {
+export default function(/* { store, ssrContext } */) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
@@ -24,7 +27,7 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
-  })
+  });
 
-  return Router
+  return Router;
 }
