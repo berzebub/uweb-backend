@@ -9,53 +9,32 @@ export default {
   data() {
     return {
       data: {
-        t1: "1",
-        t2: "2",
-        status: "INSERT"
-      }
+        id: "3",
+        name: "MMasterZ",
+        password: "123456",
+        status: "INSERT",
+      },
     };
   },
   methods: {
     testapi() {
-      let test = JSON.stringify(this.data);
-      console.log(test);
+      let data = JSON.stringify(this.data);
+      let url = "http://localhost/unbackend/testapi.php";
 
-      const options = {
-        method: "POST",
-        headers: { "content-type": "application/form-data" },
-        data: test,
-        url: "localhost/testapi.php"
-      };
+      axios
+        .post(url, (data = data))
+        .then((res) => {
+          if (res.data == "Error") {
+            return;
+          }
 
-      axios(options)
-        .then(res => {
           console.log("บันทึกแล้ว");
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("ยังไม่บันทึก");
         });
-
-      // axios
-      //   .post("testphp.php", {
-      //     t1: "1",
-      //     t2: "2",
-      //     status: "INSERT"
-      //   })
-      //   .then(res => {
-      //     console.log("ส่งข้อมูลไปแล้ว");
-      //   });
-      // .then(function (response) {
-      //   //console.log(response);
-      //   // app.newMember = { firstname: "", lastname: "" };
-      //   // if (response.data.error) {
-      //   //   app.errorMessage = response.data.message;
-      //   // } else {
-      //   //   app.successMessage = response.data.message;
-      //   //   app.getAllMembers();
-      //   // }
-      // });
-    }
-  }
+    },
+  },
 };
 </script>
 

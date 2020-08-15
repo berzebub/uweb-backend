@@ -19,11 +19,6 @@ const routes = [
         name: "data"
       },
       {
-        path: "/data/upload",
-        component: () => import("pages/datainput.vue"),
-        name: "dataupload"
-      },
-      {
         path: "/user",
         component: () => import("pages/user.vue"),
         name: "user"

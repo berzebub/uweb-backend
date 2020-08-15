@@ -31,3 +31,38 @@ export default function(/* { store, ssrContext } */) {
 
   return Router;
 }
+
+import json from "../../public/json/country_list.json";
+
+Vue.mixin({
+  methods: {
+    getCountryList() {
+      let tempOptions = [];
+      json.forEach(element => {
+        let data = {
+          label: element.name,
+          value: element.id
+        };
+        tempOptions.push(data);
+      });
+      this.countryOptions = tempOptions;
+      this.countrySelected = tempOptions[0].value;
+    },
+    notifyGreen(message) {
+      this.$q.notify({
+        message: message,
+        color: "green",
+        position: "top",
+        timeout: "2500"
+      });
+    },
+    loadingShow() {
+      this.$q.loading.show({
+        delay: 400
+      });
+    },
+    loadingHide() {
+      this.$q.loading.hide();
+    }
+  }
+});
