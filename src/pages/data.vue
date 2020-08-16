@@ -1,13 +1,13 @@
 <template>
   <q-page class>
     <!-- Header Button -->
-    <div class="q-pa-md">
+    <div class="q-pa-md q-py-lg">
       <div align="right">
         <q-btn
           label="Update Data"
           no-caps
-          class="bg4 q-px-xl font-content"
-          style="border-radius:10px"
+          class="bg4 font-content"
+          style="width:200px;border-radius:10px"
           @click="isUpload = true"
         ></q-btn>
       </div>
@@ -19,6 +19,7 @@
         <q-tabs
           active-bg-color="bg4"
           class="bg12 text-white shadow-2"
+          style="border-radius:5px 5px 0px 0px;"
           align="left"
           no-caps
           outside-arrows
@@ -35,36 +36,39 @@
           />
         </q-tabs>
       </div>
-      <div>
+      <div class="q-mt-md">
         <q-scroll-area
           visible
           :thumb-style="thumbStyle"
           :bar-style="barStyle"
-          style="height: calc(100vh - 220px);font-size:16px;overflow:hidden;"
+          style="height: calc(100vh - 225px);font-size:16px;overflow:hidden;"
           class="shadow-1 rounded-borders"
         >
           <div
-            v-for="(item, index) in dataShow"
+            v-for="(item, index) in countryList"
             :key="index"
             :class="index % 2 == 0 ? 'bg-odd' : 'bg-white'"
-            class="q-pa-xs row"
+            class="row"
+            style="height:50px;"
           >
-            <div class="col self-center q-px-md">
-              <span>{{ item.name }}</span>
+            <div class="col-5 self-center q-px-md">
+              <span class="font-content">{{ item.name }}</span>
             </div>
             <div class="col self-center">
-              <span>Last updated on {{ item.lastUpdate }}</span>
+              <span class="font-content">Not updated</span>
             </div>
-            <div class="col-1" align="center" style="width:130px;">
+            <div class="col-1 self-center" align="center" style="width:130px;">
               <q-btn
+                class="no-margin"
                 round
+                dense
                 flat
                 @click="
                   (isDeleteData = true),
                     (selectDeleteYear = item.name + '-' + item.year)
                 "
               >
-                <q-icon name="fas fa-trash-alt"></q-icon>
+                <q-icon size="xs" name="fas fa-trash-alt"></q-icon>
               </q-btn>
             </div>
           </div>
@@ -169,6 +173,7 @@
 </template>
 
 <script>
+import json from "../../public/json/country_list.json";
 export default {
   data() {
     return {
@@ -181,144 +186,17 @@ export default {
         width: "13px",
         opacity: 1,
       },
-
       barStyle: {
         right: "0px",
         backgroundColor: "#C4C4C4",
         width: "13px",
         opacity: 1,
       },
-      yearList: ["2001", "2002", "2003", "2004", "2005", "2006"],
+      yearList: [],
+      dataList: [],
       dataShow: [],
-      dataList: [
-        //   {
-        //     name: "Afghanistan",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2002",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Bolivia",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2002",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Nauru",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2005",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Philippines",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2001",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Peru",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2006",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Saudi Arabia",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2004",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Estonia",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2004",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Hawaii",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2003",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "India",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2002",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Japan",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2005",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Croatia",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2001",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Chile",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2001",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Egypt",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2001",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Brazil",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2006",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Morocco",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2005",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Malaysia",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2002",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Argentina",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2004",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Mauritius",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2003",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Nepal",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2003",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Norway",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2003",
-        //     status: true,
-        //   },
-        //   {
-        //     name: "Poland",
-        //     lastUpdate: "3/5/2020",
-        //     year: "2005",
-        //     status: true,
-        //   },
-        //
-      ],
+      countryList: [],
+
       isUpdateData: false,
 
       isDeleteData: false,
@@ -330,14 +208,20 @@ export default {
   },
   methods: {
     filter(val) {
-      this.dataShow = this.dataList.filter((x) => x.year == val);
+      this.dataList = this.dataList.filter((x) => x.year == val);
 
-      this.dataShow.sort((a, b) => {
+      this.dataList.sort((a, b) => {
         return a.name > b.name ? 1 : -1;
       });
     },
     uploadData() {
       console.clear();
+
+      if (this.files == null) {
+        this.notifyRed("กรุณาใส่ไพล์");
+        return;
+      }
+
       let promise = new Promise((resolve) => {
         var reader = new FileReader();
         var vm = this;
@@ -388,37 +272,72 @@ export default {
           }
 
           let url = "http://localhost/u_api/upload_data.php";
-
+          let countRecords = 0;
           for (const item of temp) {
-            let res = await axios.post(url, (data = JSON.stringify(item)));
+            let res = await axios
+              .post(url, (data = JSON.stringify(item)))
+              .catch((err) => {
+                console.log(err);
+              });
 
             if (res.data == "Success") {
-              console.log(res.data);
-            } else {
+              console.log((countRecords += item.length));
               console.log(res.data);
             }
           }
         },
-        (error) => {
-          console.log(error);
+        (err) => {
+          console.log(err);
         }
       );
     },
-    loadData() {
+    setDataTemp(data) {
+      let temp = [];
+
+      temp = data;
+
+      temp.sort((a, b) => {
+        return Number(a.year) - Number(b.year);
+      });
+
+      this.yearList = temp;
+
+      let firstActive = this.yearList.filter((x) => {
+        return x.status == 1;
+      });
+
+      this.selectYear = firstActive[0].year;
+
+      this.filter(this.selectYear);
+
+      this.loadingHide();
+    },
+    loadCountry() {
+      let tempOptions = [];
+      json.forEach((element) => {
+        let newData = {
+          name: element.name,
+          code: element.iso,
+        };
+        tempOptions.push(newData);
+      });
+
+      this.countryList = tempOptions;
+    },
+    async loadData() {
+      this.loadingShow();
+
       let url = "http://localhost/u_api/get_year.php";
 
-      axios
-        .get(url)
-        .then((res) => {
-          this.yearList = res.data;
+      let res = await axios.get(url).catch((err) => {
+        console.log(err);
+      });
 
-          this.selectYear = this.yearList[0].year;
+      if (res.data) {
+        this.setDataTemp(res.data);
+      }
 
-          this.filter(this.selectYear);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.loadCountry();
     },
   },
   mounted() {
@@ -434,5 +353,10 @@ export default {
 
 .border-right {
   border-right: 1px solid #eeeeee;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
 </style>

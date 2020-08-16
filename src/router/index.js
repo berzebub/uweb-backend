@@ -53,7 +53,15 @@ Vue.mixin({
         message: message,
         color: "green",
         position: "top",
-        timeout: "2500"
+        timeout: "800"
+      });
+    },
+    notifyRed(message) {
+      this.$q.notify({
+        message: message,
+        color: "negative",
+        position: "top",
+        timeout: "800"
       });
     },
     loadingShow() {

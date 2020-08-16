@@ -6,8 +6,8 @@
         <q-btn
           label="Add Year"
           no-caps
-          class="bg4 q-px-xl font-content"
-          style="border-radius:10px"
+          class="bg4 font-content"
+          style="width:200px;border-radius:10px"
           @click="isAddData = true"
         ></q-btn>
       </div>
@@ -17,7 +17,7 @@
     <div class="q-px-md q-pb-md">
       <table class="table shadow-1">
         <tr style="font-size:16px;" class="bg12">
-          <th style="padding:10px;border-top-left-radius:5px;">
+          <th style="padding:14px;border-top-left-radius:5px;">
             <div align="left" class="q-px-sm">
               <span>Year</span>
             </div>
@@ -33,9 +33,18 @@
             </div>
           </th>
         </tr>
+        <tr v-if="!yearList.length">
+          <td colspan="3">
+            <div class="q-pa-md row items-center">
+              <q-icon size="xs" name="fas fa-exclamation-triangle" class="q-mr-sm"></q-icon>
+              <span style="font-size:12px;">No Data available</span>
+            </div>
+          </td>
+        </tr>
         <tr
+          v-if="yearList.length"
           style="font-size:16px;"
-          v-for="(item,index) in data"
+          v-for="(item,index) in yearList"
           :key="index"
           :class="index % 2 == 1 ? 'bg-grey-4' : ''"
         >
@@ -55,8 +64,8 @@
           </td>
           <td style="width:150px;">
             <div class="q-pa-sm" align="center">
-              <q-btn flat round @click="isDialogDelete = true,selectDeleteYear = item.year">
-                <q-icon name="fas fa-trash-alt"></q-icon>
+              <q-btn dense flat round @click="isDialogDelete = true,selectDeleteYear = item.year">
+                <q-icon size="xs" name="fas fa-trash-alt"></q-icon>
               </q-btn>
             </div>
           </td>
@@ -220,7 +229,7 @@ export default {
           style: "width:150px;font-size:16px;",
         },
       ],
-      data: [],
+      yearList: [],
       isAddData: false,
 
       isDialogDelete: false,
@@ -304,7 +313,7 @@ export default {
       temp.sort((a, b) => {
         return Number(a.year) - Number(b.year);
       });
-      this.data = temp;
+      this.yearList = temp;
     },
     loadData() {
       let url = "http://localhost/u_api/get_year.php";
@@ -312,7 +321,9 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          this.setDataTemp(res.data);
+          if (res.data) {
+            this.setDataTemp(res.data);
+          }
         })
         .catch((err) => {
           console.log(err);
