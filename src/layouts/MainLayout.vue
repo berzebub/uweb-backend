@@ -13,7 +13,7 @@
       content-class="bg12 "
       :width="100"
     >
-      <div class="row">
+      <div class="row full-height">
         <div class="col-12" align="center">
           <div
             v-ripple
@@ -74,19 +74,40 @@
 
           <div
             v-ripple
-            :class="$route.name == 'profile' ? 'bg4 ' : ''"
+            :class="$route.name == 'profile' || $route.name == 'profileEdit' ? 'bg4 ' : ''"
             class="relative-position cursor-pointer"
             @click="$route.name == 'profile' ? null : $router.push('/profile')"
           >
             <div
               class="absolute"
               style="left:0;"
-              :class="$route.name == 'profile' ? 'border-active' : 'border-noactive'"
+              :class="$route.name == 'profile' || $route.name == 'profileEdit' ? 'border-active' : 'border-noactive'"
             ></div>
             <div class="q-py-md">
               <q-icon size="md" name="fas fa-user"></q-icon>
               <div class="q-mt-xs text-bold">
                 <span>Profile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 self-end" align="center">
+          <div
+            v-ripple
+            :class="$route.name == 'logout' ? 'bg4 ' : ''"
+            class="relative-position cursor-pointer"
+            @click="$route.name == 'logout' ? null : $router.push('/logout')"
+          >
+            <div
+              class="absolute"
+              style="left:0;"
+              :class="$route.name == 'logout' ? 'border-active' : 'border-noactive'"
+            ></div>
+            <div class="q-py-md">
+              <q-icon size="md" name="fas fa-sign-out-alt"></q-icon>
+              <div class="q-mt-xs text-bold">
+                <span>Logout</span>
               </div>
             </div>
           </div>

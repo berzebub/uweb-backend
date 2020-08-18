@@ -254,7 +254,7 @@ export default {
           this.setDataTemp(res.data);
         })
         .catch((res) => {
-          console.log("Update Fail");
+          console.log("Delete Fail");
         });
     },
     updateData(status, year) {
@@ -271,7 +271,7 @@ export default {
         status: status,
       };
 
-      let url = "http://localhost/u_api/update_status_year.php";
+      let url = "http://localhost/u_api/update_year.php";
 
       axios
         .post(url, (data = JSON.stringify(sendData)))
@@ -287,8 +287,6 @@ export default {
       let data;
       let sendData = {
         year: this.yearSelected,
-        type: "YEAR",
-        status: "INSERT",
       };
 
       let url = "http://localhost/u_api/add_year.php";
@@ -297,15 +295,13 @@ export default {
         .post(url, (data = JSON.stringify(sendData)))
         .then((res) => {
           if (res.data == "Error Dulpicate Data") {
-            console.log(res.data);
           } else {
             this.setDataTemp(res.data);
             this.isSaveCompletely = true;
           }
         })
-        .catch((res) => {
-          console.log(res);
-          console.log("Save Fail");
+        .catch((err) => {
+          console.log(err + " : Save Fail");
         });
     },
     setDataTemp(data) {
@@ -314,16 +310,18 @@ export default {
         return Number(a.year) - Number(b.year);
       });
       this.yearList = temp;
+
+      this.loadingHide();
     },
     loadData() {
+      this.loadingShow();
+
       let url = "http://localhost/u_api/get_year.php";
 
       axios
         .get(url)
         .then((res) => {
-          if (res.data) {
-            this.setDataTemp(res.data);
-          }
+          this.setDataTemp(res.data);
         })
         .catch((err) => {
           console.log(err);

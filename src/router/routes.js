@@ -29,6 +29,11 @@ const routes = [
         name: "profile"
       },
       {
+        path: "/profile/edit",
+        component: () => import("pages/profileinput.vue"),
+        name: "profileEdit"
+      },
+      {
         path: "/logout",
         component: () => import("pages/logout.vue"),
         name: "logout"

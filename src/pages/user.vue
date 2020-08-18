@@ -359,6 +359,8 @@ export default {
       axios
         .get(url)
         .then((res) => {
+          console.log(res);
+
           if (res.data) {
             this.setDataTemp(res.data);
           }

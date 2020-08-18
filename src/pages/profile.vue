@@ -1,41 +1,56 @@
 <template>
-  <q-page>
-    <q-btn label="Test API" no-caps @click="testapi()"></q-btn>
+  <q-page class="flex flex-center q-pa-xl">
+    <div class="box-profile q-pa-lg row">
+      <div class="col-12" align="center">
+        <div align="left">
+          <span>Username</span>
+        </div>
+        <q-input outlined readonly></q-input>
+      </div>
+
+      <div class="col-12 q-mt-md" align="center">
+        <div align="left">
+          <span>Email</span>
+        </div>
+        <q-input outlined readonly></q-input>
+      </div>
+
+      <div class="col-12 q-mt-md" align="center">
+        <div align="left">
+          <span>Password</span>
+        </div>
+        <q-input outlined readonly></q-input>
+        <div align="left" class="text-grey-6">
+          <span>At least 6 characters</span>
+        </div>
+      </div>
+
+      <div class="col-12 q-mt-lg" align="center">
+        <q-btn
+          label="Edit"
+          class="bg4 q-py-xs"
+          no-caps
+          style="width:150px;border-radius:10px;"
+          to="/profile/edit"
+        ></q-btn>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      data: {
-        id: "3",
-        name: "MMasterZ",
-        password: "123456",
-        status: "INSERT",
-      },
-    };
+    return {};
   },
-  methods: {
-    testapi() {
-      let data = JSON.stringify(this.data);
-      let url = "http://localhost/unbackend/testapi.php";
-
-      axios
-        .post(url, (data = data))
-        .then((res) => {
-          if (res.data == "Error") {
-            return;
-          }
-
-          console.log("บันทึกแล้ว");
-        })
-        .catch((err) => {
-          console.log("ยังไม่บันทึก");
-        });
-    },
-  },
+  methods: {},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.box-profile {
+  width: 400px;
+  border-radius: 10px;
+  border: 1px solid#000;
+}
+</style>

@@ -24,9 +24,9 @@
           no-caps
           outside-arrows
         >
-          <!-- <div style="padding:27px;"></div> -->
+          <div style="height:52px;" v-if="!yearList.length"></div>
           <q-btn
-            v-if="item.status == 1"
+            v-if="item.status == 1 && yearList.length"
             v-for="(item, index) in yearList"
             :key="index"
             class="q-pa-sm border-right q-px-md"
@@ -273,6 +273,9 @@ export default {
 
           let url = "http://localhost/u_api/upload_data.php";
           let countRecords = 0;
+
+          this.loadingShow();
+
           for (const item of temp) {
             let res = await axios
               .post(url, (data = JSON.stringify(item)))
@@ -285,6 +288,8 @@ export default {
               console.log(res.data);
             }
           }
+
+          this.loadingHide();
         },
         (err) => {
           console.log(err);
@@ -302,13 +307,15 @@ export default {
 
       this.yearList = temp;
 
-      let firstActive = this.yearList.filter((x) => {
-        return x.status == 1;
-      });
+      if (temp.length) {
+        let firstActive = this.yearList.filter((x) => {
+          return x.status == 1;
+        });
 
-      this.selectYear = firstActive[0].year;
+        this.selectYear = firstActive[0].year;
 
-      this.filter(this.selectYear);
+        this.filter(this.selectYear);
+      }
 
       this.loadingHide();
     },
