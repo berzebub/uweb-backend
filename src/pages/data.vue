@@ -8,7 +8,7 @@
           no-caps
           class="bg4 font-content"
           style="width:200px;border-radius:10px"
-          @click="isUpload = true"
+          @click="isDialogUpload = true"
         ></q-btn>
       </div>
     </div>
@@ -55,7 +55,7 @@
               <span class="font-content">{{ item.name }}</span>
             </div>
             <div class="col self-center">
-              <span class="font-content">Not updated</span>
+              <span>{{showLastUpdate(item.name)}}</span>
             </div>
             <div class="col-1 self-center" align="center" style="width:130px;">
               <q-btn
@@ -65,8 +65,9 @@
                 flat
                 @click="
                   (isDeleteData = true),
-                    (selectDeleteYear = item.name + '-' + item.year)
+                    (selectDeleteYear = item.name + '-' + selectYear)
                 "
+                v-if="dataShow.filter(x => x.data_year == selectYear && x.country == item.name).length"
               >
                 <q-icon size="xs" name="fas fa-trash-alt"></q-icon>
               </q-btn>
@@ -111,7 +112,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="isUpload" persistent>
+    <q-dialog v-model="isDialogUpload" persistent>
       <q-card style="width:400px;">
         <q-card-section class="bg4 q-py-sm" align="center">
           <span style="font-size:20px;">Upload Data</span>
@@ -165,6 +166,7 @@
             label="Upload"
             no-caps
             @click="uploadData()"
+            :disable="isUploadData"
           />
         </q-card-actions>
       </q-card>
@@ -201,18 +203,30 @@ export default {
 
       isDeleteData: false,
 
-      isUpload: false,
+      isDialogUpload: false,
+      isUploadData: false,
 
       fileinput: "",
     };
   },
   methods: {
     filter(val) {
-      this.dataList = this.dataList.filter((x) => x.year == val);
+      this.dataShow = this.dataList.filter((x) => x.data_year == val);
 
-      this.dataList.sort((a, b) => {
-        return a.name > b.name ? 1 : -1;
+      // this.dataList.sort((a, b) => {
+      //   return a.name > b.name ? 1 : -1;
+      // });
+    },
+    showLastUpdate(country) {
+      let hasLastUpdate = this.dataShow.filter((x) => {
+        return x.data_year == this.selectYear && x.country == country;
       });
+
+      if (hasLastUpdate.length) {
+        return "Last updated on " + hasLastUpdate[0].lastUpdate;
+      } else {
+        return "Not Updated";
+      }
     },
     uploadData() {
       console.clear();
@@ -221,6 +235,10 @@ export default {
         this.notifyRed("กรุณาใส่ไพล์");
         return;
       }
+
+      this.loadingShow();
+      this.isDialogUpload = false;
+      this.isUploadData = true;
 
       let promise = new Promise((resolve) => {
         var reader = new FileReader();
@@ -252,17 +270,19 @@ export default {
             for (let x = 0; x < setNewArray.length; x++) {
               let data = setNewArray[x].split(",");
 
-              let newContent = {
-                source_country: data[0].replace(/[\"]/g, ""),
-                exp_country: data[1].replace(/[\"]/g, ""),
-                exp_sector: data[2].replace(/[\"]/g, ""),
-                imp_country: data[3].replace(/[\"]/g, ""),
-                variable: data[4].replace(/[\"]/g, ""),
-                value: Number(data[5]),
-                year: Number(data[6]),
-              };
+              if (data[0] != "") {
+                let newContent = {
+                  source_country: data[0].replace(/[\"]/g, ""),
+                  exp_country: data[1].replace(/[\"]/g, ""),
+                  exp_sector: data[2].replace(/[\"]/g, ""),
+                  imp_country: data[3].replace(/[\"]/g, ""),
+                  variable: data[4].replace(/[\"]/g, ""),
+                  value: Number(data[5]),
+                  year: Number(data[6]),
+                };
 
-              setNewArray[x] = newContent;
+                setNewArray[x] = newContent;
+              }
             }
 
             temp.push(setNewArray);
@@ -271,7 +291,31 @@ export default {
             endCount += limit;
           }
 
-          let url = "http://localhost/u_api/upload_data.php";
+          let url = "http://localhost/u_api/add_upload_log.php";
+
+          let getCountry = this.countryList.filter((x) => {
+            return x.code == temp[0][0].exp_country;
+          })[0].name;
+
+          let setNewData = {
+            year: temp[0][0].year,
+            country: getCountry,
+          };
+
+          let setLog = await axios.post(
+            url,
+            (data = JSON.stringify(setNewData))
+          );
+
+          if (setLog.data == "Success") {
+            url = "http://localhost/u_api/get_upload_log.php";
+
+            let res = await axios.get(url);
+
+            this.setDataUpdateLog(res.data);
+          }
+
+          url = "http://localhost/u_api/upload_data.php";
           let countRecords = 0;
 
           this.loadingShow();
@@ -289,12 +333,32 @@ export default {
             }
           }
 
+          this.isUploadData = false;
           this.loadingHide();
         },
         (err) => {
           console.log(err);
         }
       );
+    },
+    setDataUpdateLog(data) {
+      let temp = [];
+
+      temp = data;
+
+      console.log(data);
+
+      temp.sort((a, b) => {
+        return a.country > b.country ? 1 : -1;
+      });
+
+      this.dataList = temp;
+
+      if (temp.length) {
+        this.dataShow = this.dataList.filter((x) => {
+          return x.data_year == this.selectYear;
+        });
+      }
     },
     setDataTemp(data) {
       let temp = [];
@@ -342,6 +406,16 @@ export default {
 
       if (res.data) {
         this.setDataTemp(res.data);
+      }
+
+      url = "http://localhost/u_api/get_upload_log.php";
+
+      res = await axios.get(url).catch((err) => {
+        console.log(err);
+      });
+
+      if (res.data) {
+        this.setDataUpdateLog(res.data);
       }
 
       this.loadCountry();

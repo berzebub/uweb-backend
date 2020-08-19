@@ -65,7 +65,12 @@
           </td>
           <td style="width:150px;">
             <div class="q-pa-sm" align="center">
-              <q-btn dense flat round @click="isDialogDelete = true">
+              <q-btn
+                dense
+                flat
+                round
+                @click="isDialogDelete = true,showNameDelete = item.username,deleteKey = item.id"
+              >
                 <q-icon size="xs" name="fas fa-trash-alt"></q-icon>
               </q-btn>
             </div>
@@ -153,7 +158,7 @@
 
         <q-card-section class="q-pt-lg" align="center">
           <div class="q-pt-md q-pb-sm">
-            <span style="font-size:16px;">Do you really want to delete “{{}}”?</span>
+            <span style="font-size:16px;">Do you really want to delete “{{showNameDelete}}”?</span>
           </div>
         </q-card-section>
 
@@ -173,6 +178,7 @@
               style="width:150px;border-radius:10px;"
               label="Delete"
               no-caps
+              @click="deleteUser()"
             />
           </div>
         </q-card-actions>
@@ -246,6 +252,8 @@ export default {
         email: "",
         password: "",
       },
+      deleteKey: "",
+      showNameDelete: "",
       userEditDetails: {},
       userList: [], // ข้อมูลผู้ใช้งานทั้งหมด
       isAddMode: true, // เช็คสถานะ true = เพิ่มผู้ใช้งาน , false = แก้ไขผู้ใช้งาน
@@ -255,6 +263,22 @@ export default {
     };
   },
   methods: {
+    deleteUser() {
+      this.isDialogDelete = false;
+
+      let url = "http://localhost/u_api/delete_user.php";
+
+      axios
+        .post(url, JSON.stringify(this.deleteKey))
+        .then((res) => {
+          if (res.data) {
+            this.setDataTemp(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     editUser(data) {
       this.isDialogAddUser = true;
       this.isAddMode = false;
@@ -359,8 +383,6 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
-
           if (res.data) {
             this.setDataTemp(res.data);
           }
