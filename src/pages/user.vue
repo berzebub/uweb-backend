@@ -65,10 +65,12 @@
           </td>
           <td style="width:150px;">
             <div class="q-pa-sm" align="center">
+              <span v-if="item.status == 'admin'">-</span>
               <q-btn
                 dense
                 flat
                 round
+                v-if="item.status == 'user'"
                 @click="isDialogDelete = true,showNameDelete = item.username,deleteKey = item.id"
               >
                 <q-icon size="xs" name="fas fa-trash-alt"></q-icon>

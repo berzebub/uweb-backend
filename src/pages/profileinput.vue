@@ -19,7 +19,12 @@
         <div align="left">
           <span>Old Password</span>
         </div>
-        <q-input outlined v-model="userDetails.password"></q-input>
+        <q-input
+          outlined
+          v-model="userDetails.password"
+          :rules="[val => !!val,val => val.length >= 6]"
+          hide-bottom-space
+        ></q-input>
         <div align="left" class="text-grey-6"></div>
       </div>
 
@@ -27,7 +32,13 @@
         <div align="left">
           <span>New Password</span>
         </div>
-        <q-input outlined v-model="newPassword"></q-input>
+        <q-input
+          outlined
+          v-model="newPassword"
+          ref="newpassword"
+          :rules="[val => !!val,val => val.length >= 6]"
+          hide-bottom-space
+        ></q-input>
         <div align="left" class="text-grey-6">
           <span>At least 6 characters</span>
         </div>
@@ -85,6 +96,7 @@
 export default {
   data() {
     return {
+      userId: "",
       userDetails: {
         username: "",
         password: "",
@@ -96,9 +108,49 @@ export default {
     };
   },
   methods: {
-    updateProfile() {
-      this.isDialogUpdateCompletely = true;
+    async updateProfile() {
+      console.clear();
+
+      if (
+        this.userDetails.username == "" ||
+        this.userDetails.email == "" ||
+        this.userDetails.password == ""
+      ) {
+        console.log("กรุณากรอกข้อมูลให้ครบ");
+        return;
+      }
+
+      if (this.userDetails.password != this.newPassword) {
+        console.log("รหัสผ่านไม่ตรงกัน");
+        return;
+      }
+
+      let data;
+      let url = "http://localhost/u_api/edit_profile.php";
+
+      let sendData = {
+        ...this.userDetails,
+        id: this.userId,
+      };
+
+      let res = await axios.post(url, (data = sendData));
+
+      if (res.data == "Success") {
+        console.log(res.data);
+        this.isDialogUpdateCompletely = true;
+      }
     },
+    getUser() {
+      let userData = this.$q.sessionStorage.getItem("ssid");
+
+      this.userId = userData.id;
+
+      this.userDetails.username = userData.username;
+      this.userDetails.email = userData.email;
+    },
+  },
+  mounted() {
+    this.getUser();
   },
 };
 </script>

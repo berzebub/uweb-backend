@@ -16,7 +16,7 @@
           label="Logout"
           class="q-py-xs q-ml-sm bg4"
           style="width:145px;border-radius:10px;"
-          @click="$router.push('/')"
+          @click="logout()"
         ></q-btn>
       </div>
     </div>
@@ -27,6 +27,12 @@
 export default {
   data() {
     return {};
+  },
+  methods: {
+    logout() {
+      this.$q.sessionStorage.remove("ssid");
+      this.$router.push("/");
+    },
   },
 };
 </script>

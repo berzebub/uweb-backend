@@ -5,24 +5,21 @@
         <div align="left">
           <span>Username</span>
         </div>
-        <q-input outlined readonly></q-input>
+        <q-input v-model="user.username" outlined readonly></q-input>
       </div>
 
       <div class="col-12 q-mt-md" align="center">
         <div align="left">
           <span>Email</span>
         </div>
-        <q-input outlined readonly></q-input>
+        <q-input v-model="user.email" outlined readonly></q-input>
       </div>
 
       <div class="col-12 q-mt-md" align="center">
         <div align="left">
           <span>Password</span>
         </div>
-        <q-input outlined readonly></q-input>
-        <div align="left" class="text-grey-6">
-          <span>At least 6 characters</span>
-        </div>
+        <q-input outlined type="password" v-model="user.password" readonly></q-input>
       </div>
 
       <div class="col-12 q-mt-lg" align="center">
@@ -41,7 +38,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: this.$q.sessionStorage.getItem("ssid"),
+    };
   },
   methods: {},
 };

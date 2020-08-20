@@ -2,7 +2,15 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar class="bg12">
-        <q-toolbar-title>{{$route.name[0].toUpperCase() + $route.name.substring(1)}}</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'year'">Year</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'data'">Data</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'user'">User</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'profile'">Profile</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'profileEdit'">
+          Profile >
+          <span>Edit</span>
+        </q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'logout'">Logout</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -54,6 +62,7 @@
           </div>
 
           <div
+            v-if="user.status == 'admin'"
             v-ripple
             :class="$route.name == 'user' ? 'bg4 ' : ''"
             class="relative-position cursor-pointer"
@@ -176,7 +185,21 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData,
+      user: {},
     };
+  },
+  methods: {
+    checkUser() {
+      if (!this.$q.sessionStorage.has("ssid")) {
+        this.$router.push("/");
+        return;
+      } else {
+        this.user = this.$q.sessionStorage.getItem("ssid");
+      }
+    },
+  },
+  mounted() {
+    this.checkUser();
   },
 };
 </script>

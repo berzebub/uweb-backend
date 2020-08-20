@@ -17,7 +17,7 @@
       <div class="text-left" style="width:250px;">
         <span>Username</span>
         <div align="center">
-          <q-input style="width:250px;" v-model="username" outlined></q-input>
+          <q-input style="width:250px;" ref="username" v-model="username" outlined></q-input>
         </div>
       </div>
 
@@ -28,6 +28,7 @@
           outlined
           :type="isShowPassword ? 'password' : 'text'"
           style="width:250px;"
+          @keyup.enter="login()"
         >
           <template v-slot:append>
             <q-icon
@@ -45,7 +46,7 @@
           style="border-radius:10px;"
           label="Login"
           no-caps
-          to="/year"
+          @click="login()"
         ></q-btn>
       </div>
 
@@ -117,6 +118,30 @@ export default {
   },
   components: {
     unFooter,
+  },
+  methods: {
+    async login() {
+      if (this.username == "" || this.password == "") {
+        this.$refs.username.focus();
+        return;
+      }
+
+      let data;
+      let url = "http://localhost/u_api/check_login.php";
+
+      let sendData = {
+        username: this.username,
+        password: this.password,
+      };
+
+      let res = await axios.post(url, (data = sendData));
+      if (res.data == "Login Failed") {
+        return;
+      } else {
+        this.$q.sessionStorage.set("ssid", res.data);
+        this.$router.push("/year");
+      }
+    },
   },
 };
 </script>
