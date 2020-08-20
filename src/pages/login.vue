@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center" style="height:100vh">
+  <div class="row justify-center container shadow-1" style="height:100vh">
     <div class="col-12">
       <!-- NOTE : Menu bar Header -->
       <q-toolbar class="text-primary bg-white q-pa-sm shadow-4">
