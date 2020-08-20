@@ -65,7 +65,7 @@
                 flat
                 @click="
                   (isDeleteData = true),
-                    (selectDeleteYear = item.name + '-' + selectYear)
+                    selectDelete.year = selectYear,selectDelete.code = item.code,selectDelete.country = item.name
                 "
                 v-if="dataShow.filter(x => x.data_year == selectYear && x.country == item.name).length"
               >
@@ -86,7 +86,9 @@
 
         <q-card-section class="q-pt-lg" align="center">
           <div class="q-pt-md q-pb-sm">
-            <span style="font-size:16px;">Do you really want to delete “{{ selectDeleteYear }}”?</span>
+            <span
+              style="font-size:16px;"
+            >Do you really want to delete “{{ selectDelete.country + "-" + selectDelete.year }}”?</span>
           </div>
         </q-card-section>
 
@@ -106,6 +108,7 @@
               style="width:150px;border-radius:10px;"
               label="Delete"
               no-caps
+              @click="deleteData()"
             />
           </div>
         </q-card-actions>
@@ -171,6 +174,116 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- Dialog Upload Completely -->
+    <q-dialog v-model="isDialogUploadCompletely">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Upload completely</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span
+              style="font-size:16px;"
+            >Upload “{{uploadDetails.country}} - {{uploadDetails.year}}” complete</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Dialog Delete Completely -->
+    <q-dialog v-model="isDialogDeleteCompletely">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Delete completely</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span
+              style="font-size:16px;"
+            >Delete “{{selectDelete.country}} - {{selectDelete.year}}” complete</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Dialog Same Upload Data -->
+    <q-dialog v-model="isDialogSameUploadData">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Notification</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span
+              style="font-size:16px;"
+            >Please delete old data in “{{uploadDetails.country}} - {{uploadDetails.year}}” before upload new one.</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Dialog Same Upload Data -->
+    <q-dialog v-model="isDialogFormatIsWrong">
+      <q-card style="width:450px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Notification</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span style="font-size:16px;">File format is wrong.</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -181,7 +294,11 @@ export default {
     return {
       files: null,
       selectYear: "",
-      selectDeleteYear: "",
+      selectDelete: {
+        year: "",
+        code: "",
+        country: "",
+      },
       thumbStyle: {
         right: "0px",
         backgroundColor: "#757575",
@@ -201,15 +318,51 @@ export default {
 
       isUpdateData: false,
 
-      isDeleteData: false,
-
+      uploadDetails: {
+        country: "",
+        year: "",
+      },
       isDialogUpload: false,
       isUploadData: false,
+      isDialogUploadCompletely: false,
+
+      isDeleteData: false,
+      isDialogDeleteCompletely: false,
+
+      isDialogSameUploadData: false,
+
+      isDialogFormatIsWrong: false,
 
       fileinput: "",
     };
   },
   methods: {
+    deleteData() {
+      this.loadingShow();
+
+      this.isDeleteData = false;
+
+      let data = "";
+      let url = "http://localhost/u_api/delete_country_data.php";
+
+      let sendData = {
+        year: this.selectDelete.year,
+        code: this.selectDelete.code,
+        country: this.selectDelete.country,
+      };
+
+      axios
+        .post(url, (data = sendData))
+        .then((res) => {
+          this.isDialogDeleteCompletely = true;
+          this.setDataUpdateLog(res.data);
+          this.loadingHide();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.loadingHide();
+        });
+    },
     filter(val) {
       this.dataShow = this.dataList.filter((x) => x.data_year == val);
 
@@ -236,7 +389,6 @@ export default {
         return;
       }
 
-      this.loadingShow();
       this.isDialogUpload = false;
       this.isUploadData = true;
 
@@ -251,109 +403,90 @@ export default {
 
       promise.then(
         async (result) => {
-          console.log(this.files);
-          let allTextLines = result.split(/\r\n|\n/);
-          let temp = [];
-          let data;
-          let limit = 100000;
+          this.loadingShow();
 
-          if (allTextLines[0].includes("source_country")) {
-            allTextLines.splice(0, 1);
-          }
+          let data = "";
+          let allTextLine = result.split(/\r\n|\n/);
 
-          let count = Math.ceil(allTextLines.length / limit);
-          let startCount = 0;
-          let endCount = limit;
-
-          for (let i = 1; i <= count; i++) {
-            let setNewArray = allTextLines.slice(startCount, endCount);
-
-            for (let x = 0; x < setNewArray.length; x++) {
-              let data = setNewArray[x].split(",");
-
-              if (data[0] != "") {
-                let newContent = {
-                  source_country: data[0].replace(/[\"]/g, ""),
-                  exp_country: data[1].replace(/[\"]/g, ""),
-                  exp_sector: data[2].replace(/[\"]/g, ""),
-                  imp_country: data[3].replace(/[\"]/g, ""),
-                  variable: data[4].replace(/[\"]/g, ""),
-                  value: Number(data[5]),
-                  year: Number(data[6]),
-                };
-
-                setNewArray[x] = newContent;
-              }
+          if (allTextLine[0].split(",").length == 7) {
+            if (allTextLine[0].includes("source_country")) {
+              allTextLine.splice(0, 1);
+            } else {
+              this.isDialogFormatIsWrong = true;
+              this.files = null;
+              this.isUploadData = false;
+              this.loadingHide();
+              return;
             }
 
-            temp.push(setNewArray);
+            allTextLine = allTextLine[0].split(",");
 
-            startCount += limit;
-            endCount += limit;
-          }
+            let getCountry = this.countryList.filter((x) => {
+              return x.code == allTextLine[1].replace(/[\"]/g, "");
+            });
 
-          let url = "http://localhost/u_api/add_upload_log.php";
+            let checkDataLog = this.dataList.filter(
+              (x) =>
+                x.data_year == allTextLine[6].toString() &&
+                x.country == getCountry[0].name
+            );
 
-          let getCountry = this.countryList.filter((x) => {
-            return x.code == temp[0][0].exp_country;
-          })[0].name;
+            this.uploadDetails.country = getCountry[0].name;
+            this.uploadDetails.year = allTextLine[6];
 
-          let setNewData = {
-            year: temp[0][0].year,
-            country: getCountry,
-          };
+            if (checkDataLog.length) {
+              this.isDialogSameUploadData = true;
+              this.files = null;
+              this.isUploadData = false;
+              this.loadingHide();
+              return;
+            }
 
-          // let setLog = await axios.post(
-          //   url,
-          //   (data = JSON.stringify(setNewData))
-          // );
+            if (getCountry.length) {
+              let formData = new FormData();
 
-          // if (setLog.data == "Success") {
-          //   url = "http://localhost/u_api/get_upload_log.php";
+              formData.append("file", this.files);
 
-          //   let res = await axios.get(url);
+              let url = "http://localhost/u_api/upload_data.php";
 
-          //   this.setDataUpdateLog(res.data);
-          // }
-
-          // url = "http://localhost/u_api/upload_data.php";
-          // let countRecords = 0;
-
-          // this.loadingShow();
-
-          this.loadingHide();
-
-          var formData = new FormData();
-
-          formData.append("file", this.files);
-
-          url = "http://localhost/u_api/upload_data.php";
-
-          let getFiles = await axios.post(url, formData, {
-            header: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-
-          console.log(getFiles.data);
-
-          return;
-
-          for (const item of temp) {
-            let res = await axios
-              .post(url, (data = JSON.stringify(item)))
-              .catch((err) => {
-                console.log(err);
+              let getFiles = await axios.post(url, formData, {
+                header: {
+                  "Content-Type": "multipart/form-data",
+                },
               });
 
-            if (res.data == "Success") {
-              console.log((countRecords += item.length));
-              console.log(res.data);
-            }
-          }
+              url = "http://localhost/u_api/add_upload_log.php";
 
-          this.isUploadData = false;
-          this.loadingHide();
+              let setNewData = {
+                year: allTextLine[6],
+                country: getCountry[0].name,
+              };
+
+              let setLog = await axios.post(
+                url,
+                (data = JSON.stringify(setNewData))
+              );
+
+              if (setLog.data == "Success") {
+                url = "http://localhost/u_api/get_upload_log.php";
+
+                let res = await axios.get(url);
+
+                this.setDataUpdateLog(res.data);
+              }
+
+              this.isDialogUploadCompletely = true;
+              this.files = null;
+              this.isUploadData = false;
+              this.loadingHide();
+            }
+          } else {
+            this.isDialogFormatIsWrong = true;
+
+            this.isUploadData = false;
+            this.loadingHide();
+            return;
+          }
         },
         (err) => {
           console.log(err);

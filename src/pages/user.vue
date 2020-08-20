@@ -189,7 +189,7 @@
     <q-dialog v-model="isDialogSaveCompletely" persistent>
       <q-card style="width:400px;border-radius:10px;">
         <q-card-section class="bg4 q-py-sm" align="center">
-          <span style="font-size:20px;">{{isAddMode ? 'Add' : 'Edit'}} user Completely</span>
+          <span style="font-size:20px;">{{isAddMode ? 'Add' : 'Edit'}} user completely</span>
         </q-card-section>
 
         <q-card-section class="q-pt-lg" align="center">
@@ -213,16 +213,16 @@
       </q-card>
     </q-dialog>
 
-    <!-- Dialog Dulpicate Data -->
-    <!-- <q-dialog v-model="isDialogSaveCompletely">
+    <!-- Dialog Delete Completely -->
+    <q-dialog v-model="isDialogDeleteCompletely">
       <q-card style="width:400px;border-radius:10px;">
         <q-card-section class="bg4 q-py-sm" align="center">
-          <span style="font-size:20px;">Add user Completely</span>
+          <span style="font-size:20px;">Delete completely</span>
         </q-card-section>
 
         <q-card-section class="q-pt-lg" align="center">
           <div class="q-pt-md q-pb-sm">
-            <span style="font-size:16px;">Add “{{userDetails.username}}” completely</span>
+            <span style="font-size:16px;">Delete “{{showNameDelete}}” complete</span>
           </div>
         </q-card-section>
 
@@ -232,13 +232,12 @@
               class="font-content q-mx-md bg4"
               style="width:150px;border-radius:10px;"
               label="OK"
-              @click="userDetails = {}"
               v-close-popup
             />
           </div>
         </q-card-actions>
       </q-card>
-    </q-dialog>-->
+    </q-dialog>
   </q-page>
 </template>
 
@@ -260,6 +259,8 @@ export default {
       isDialogAddUser: false, // ใช้ในการเปิดปิด Dialog สำหรับเพิ่มและแก้ไข
       isDialogDelete: false, // เปิด Dialog สำหรับลบข้อมูล
       isDialogSaveCompletely: false, // เปิด Dialog บันทึกข้อมูลเรียบร้อย
+
+      isDialogDeleteCompletely: false, // เปิด Dialog Delete completely
     };
   },
   methods: {
@@ -272,6 +273,7 @@ export default {
         .post(url, JSON.stringify(this.deleteKey))
         .then((res) => {
           if (res.data) {
+            this.isDialogDeleteCompletely = true;
             this.setDataTemp(res.data);
           }
         })

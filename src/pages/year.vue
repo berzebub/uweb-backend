@@ -151,7 +151,7 @@
     <q-dialog v-model="isSaveCompletely">
       <q-card style="width:400px;border-radius:10px;">
         <q-card-section class="bg4 q-py-sm" align="center">
-          <span style="font-size:20px;">Add year Completely</span>
+          <span style="font-size:20px;">Add year completely</span>
         </q-card-section>
 
         <q-card-section class="q-pt-lg" align="center">
@@ -167,6 +167,32 @@
               style="width:150px;border-radius:10px;"
               label="OK"
               @click="userDetails = {}"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Dialog Save Completely -->
+    <q-dialog v-model="isDialogDeleteSuccess">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Done</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span style="font-size:16px;">“{{selectDeleteYear}}” is successfully deleted</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
               v-close-popup
             />
           </div>
@@ -234,6 +260,8 @@ export default {
 
       isDialogDelete: false,
       isSaveCompletely: false,
+
+      isDialogDeleteSuccess: false,
     };
   },
   methods: {
@@ -252,6 +280,7 @@ export default {
         .post(url, (data = JSON.stringify(sendData)))
         .then((res) => {
           this.setDataTemp(res.data);
+          this.isDialogDeleteSuccess = true;
         })
         .catch((res) => {
           console.log("Delete Fail");
