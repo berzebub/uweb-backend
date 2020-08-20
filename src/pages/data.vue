@@ -251,6 +251,7 @@ export default {
 
       promise.then(
         async (result) => {
+          console.log(this.files);
           let allTextLines = result.split(/\r\n|\n/);
           let temp = [];
           let data;
@@ -302,23 +303,41 @@ export default {
             country: getCountry,
           };
 
-          let setLog = await axios.post(
-            url,
-            (data = JSON.stringify(setNewData))
-          );
+          // let setLog = await axios.post(
+          //   url,
+          //   (data = JSON.stringify(setNewData))
+          // );
 
-          if (setLog.data == "Success") {
-            url = "http://localhost/u_api/get_upload_log.php";
+          // if (setLog.data == "Success") {
+          //   url = "http://localhost/u_api/get_upload_log.php";
 
-            let res = await axios.get(url);
+          //   let res = await axios.get(url);
 
-            this.setDataUpdateLog(res.data);
-          }
+          //   this.setDataUpdateLog(res.data);
+          // }
+
+          // url = "http://localhost/u_api/upload_data.php";
+          // let countRecords = 0;
+
+          // this.loadingShow();
+
+          this.loadingHide();
+
+          var formData = new FormData();
+
+          formData.append("file", this.files);
 
           url = "http://localhost/u_api/upload_data.php";
-          let countRecords = 0;
 
-          this.loadingShow();
+          let getFiles = await axios.post(url, formData, {
+            header: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          console.log(getFiles.data);
+
+          return;
 
           for (const item of temp) {
             let res = await axios
@@ -345,8 +364,6 @@ export default {
       let temp = [];
 
       temp = data;
-
-      console.log(data);
 
       temp.sort((a, b) => {
         return a.country > b.country ? 1 : -1;
