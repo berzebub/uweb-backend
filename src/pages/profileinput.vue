@@ -50,14 +50,14 @@
           outline
           class="q-py-xs"
           no-caps
-          style="width:150px;border-radius:10px;"
+          style="width:150px;border-radius:10px;font-size:18px"
           to="/profile"
         ></q-btn>
         <q-btn
           label="Save"
           class="bg4 q-py-xs"
           no-caps
-          style="width:150px;border-radius:10px;"
+          style="width:150px;border-radius:10px;font-size:18px"
           @click="updateProfile()"
         ></q-btn>
       </div>
@@ -116,17 +116,17 @@ export default {
         this.userDetails.email == "" ||
         this.userDetails.password == ""
       ) {
-        console.log("กรุณากรอกข้อมูลให้ครบ");
+        this.notifyRed("Please fill in Old Password / New Password");
         return;
       }
 
       if (this.userDetails.password != this.newPassword) {
-        console.log("รหัสผ่านไม่ตรงกัน");
+        this.notifyRed("Old Password is incorrect");
         return;
       }
 
       let data;
-      let url = "http://localhost/u_api/edit_profile.php";
+      let url = "https://thaiawesomedev.com/u_api/edit_profile.php";
 
       let sendData = {
         ...this.userDetails,

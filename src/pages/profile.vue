@@ -27,7 +27,7 @@
           label="Edit"
           class="bg4 q-py-xs"
           no-caps
-          style="width:150px;border-radius:10px;"
+          style="width:150px;border-radius:10px;font-size:18px"
           to="/profile/edit"
         ></q-btn>
       </div>

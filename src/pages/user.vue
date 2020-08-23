@@ -100,7 +100,13 @@
             <div align="left">
               <span style="font-size:16px;">Username</span>
             </div>
-            <q-input outlined v-model="userDetails.username" :rules="[val => !!val]" ref="username"></q-input>
+            <q-input
+              :readonly="!isAddMode"
+              outlined
+              v-model="userDetails.username"
+              :rules="[val => !!val]"
+              ref="username"
+            ></q-input>
           </div>
           <div style="width:320px;">
             <div align="left">
@@ -269,12 +275,13 @@ export default {
     deleteUser() {
       this.isDialogDelete = false;
 
-      let url = "http://localhost/u_api/delete_user.php";
+      let url = "https://thaiawesomedev.com/u_api/delete_user.php";
 
       axios
         .post(url, JSON.stringify(this.deleteKey))
         .then((res) => {
           if (res.data) {
+            console.log(res.data);
             this.isDialogDeleteCompletely = true;
             this.setDataTemp(res.data);
           }
@@ -352,9 +359,9 @@ export default {
       let sendData = { ...this.userDetails };
 
       if (this.isAddMode) {
-        url = "http://localhost/u_api/add_user.php";
+        url = "https://thaiawesomedev.com/u_api/add_user.php";
       } else {
-        url = "http://localhost/u_api/edit_user.php";
+        url = "https://thaiawesomedev.com/u_api/edit_user.php";
 
         sendData.id = this.userEditDetails.id;
       }
@@ -383,7 +390,7 @@ export default {
     loadData() {
       this.loadingShow();
 
-      let url = "http://localhost/u_api/get_user.php";
+      let url = "https://thaiawesomedev.com/u_api/get_user.php";
       axios
         .get(url)
         .then((res) => {

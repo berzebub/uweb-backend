@@ -4,7 +4,7 @@
     <div class="q-pa-md q-py-lg">
       <div align="right">
         <q-btn
-          label="Update Data"
+          label="Upload Data"
           no-caps
           class="bg4 font-content"
           style="width:200px;border-radius:10px"
@@ -141,7 +141,7 @@
                   <span
                     class="font-hint text-black"
                     style="text-decoration:underline;"
-                  >Choose data file</span>
+                  >Choose a data file</span>
                 </div>
                 <template v-slot:file="{ index, file }">
                   <span
@@ -235,14 +235,14 @@
     <q-dialog v-model="isDialogSameUploadData">
       <q-card style="width:400px;border-radius:10px;">
         <q-card-section class="bg4 q-py-sm" align="center">
-          <span style="font-size:20px;">Notification</span>
+          <span style="font-size:20px;">Upload Data Incompletely</span>
         </q-card-section>
 
         <q-card-section class="q-pt-lg" align="center">
           <div class="q-pt-md q-pb-sm">
             <span
               style="font-size:16px;"
-            >Please delete old data in “{{uploadDetails.country}} - {{uploadDetails.year}}” before upload new one.</span>
+            >Please delete old data in “{{uploadDetails.country}} - {{uploadDetails.year}}” before uploading new one.</span>
           </div>
         </q-card-section>
 
@@ -263,7 +263,7 @@
     <q-dialog v-model="isDialogFormatIsWrong">
       <q-card style="width:450px;border-radius:10px;">
         <q-card-section class="bg4 q-py-sm" align="center">
-          <span style="font-size:20px;">Notification</span>
+          <span style="font-size:20px;">Upload Data incompletely</span>
         </q-card-section>
 
         <q-card-section class="q-pt-lg" align="center">
@@ -343,7 +343,7 @@ export default {
       this.isDeleteData = false;
 
       let data = "";
-      let url = "http://localhost/u_api/delete_country_data.php";
+      let url = "https://thaiawesomedev.com/u_api/delete_country_data.php";
 
       let sendData = {
         year: this.selectDelete.year,
@@ -385,7 +385,7 @@ export default {
       console.clear();
 
       if (this.files == null) {
-        this.notifyRed("กรุณาใส่ไพล์");
+        this.notifyRed("Please choose a data file");
         return;
       }
 
@@ -447,7 +447,7 @@ export default {
 
               formData.append("file", this.files);
 
-              let url = "http://localhost/u_api/upload_data.php";
+              let url = "https://thaiawesomedev.com/u_api/upload_data.php";
 
               let getFiles = await axios.post(url, formData, {
                 header: {
@@ -455,7 +455,9 @@ export default {
                 },
               });
 
-              url = "http://localhost/u_api/add_upload_log.php";
+              console.log(getFiles);
+
+              url = "https://thaiawesomedev.com/u_api/add_upload_log.php";
 
               let setNewData = {
                 year: allTextLine[6],
@@ -468,7 +470,7 @@ export default {
               );
 
               if (setLog.data == "Success") {
-                url = "http://localhost/u_api/get_upload_log.php";
+                url = "https://thaiawesomedev.com/u_api/get_upload_log.php";
 
                 let res = await axios.get(url);
 
@@ -548,7 +550,7 @@ export default {
     async loadData() {
       this.loadingShow();
 
-      let url = "http://localhost/u_api/get_year.php";
+      let url = "https://thaiawesomedev.com/u_api/get_year.php";
 
       let res = await axios.get(url).catch((err) => {
         console.log(err);
@@ -558,7 +560,7 @@ export default {
         this.setDataTemp(res.data);
       }
 
-      url = "http://localhost/u_api/get_upload_log.php";
+      url = "https://thaiawesomedev.com/u_api/get_upload_log.php";
 
       res = await axios.get(url).catch((err) => {
         console.log(err);
