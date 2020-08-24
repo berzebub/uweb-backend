@@ -26,7 +26,7 @@
         >
           <div style="height:52px;" v-if="!yearList.length"></div>
           <q-btn
-            v-if="item.status == 1 && yearList.length"
+            v-if="yearList.length"
             v-for="(item, index) in yearList"
             :key="index"
             class="q-pa-sm border-right q-px-md"
