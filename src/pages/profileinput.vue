@@ -126,7 +126,7 @@ export default {
       }
 
       let data;
-      let url = "https://thaiawesomedev.com/u_api/edit_profile.php";
+      let url = "https://api.winner-english.com/u_api/edit_profile.php";
 
       let sendData = {
         ...this.userDetails,

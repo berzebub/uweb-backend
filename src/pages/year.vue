@@ -294,7 +294,7 @@ export default {
         year: year,
       };
 
-      let url = "https://thaiawesomedev.com/u_api/delete_year.php";
+      let url = "https://api.winner-english.com/u_api/delete_year.php";
 
       axios
         .post(url, (data = JSON.stringify(sendData)))
@@ -320,7 +320,7 @@ export default {
         status: status,
       };
 
-      let url = "https://thaiawesomedev.com/u_api/update_year.php";
+      let url = "https://api.winner-english.com/u_api/update_year.php";
 
       axios
         .post(url, (data = JSON.stringify(sendData)))
@@ -338,7 +338,7 @@ export default {
         year: this.yearSelected,
       };
 
-      let url = "https://thaiawesomedev.com/u_api/add_year.php";
+      let url = "https://api.winner-english.com/u_api/add_year.php";
 
       axios
         .post(url, (data = JSON.stringify(sendData)))
@@ -365,7 +365,7 @@ export default {
     loadData() {
       this.loadingShow();
 
-      let url = "https://thaiawesomedev.com/u_api/get_year.php";
+      let url = "https://api.winner-english.com/u_api/get_year.php";
 
       axios
         .get(url)

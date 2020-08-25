@@ -275,7 +275,7 @@ export default {
     deleteUser() {
       this.isDialogDelete = false;
 
-      let url = "https://thaiawesomedev.com/u_api/delete_user.php";
+      let url = "https://api.winner-english.com/u_api/delete_user.php";
 
       axios
         .post(url, JSON.stringify(this.deleteKey))
@@ -359,9 +359,9 @@ export default {
       let sendData = { ...this.userDetails };
 
       if (this.isAddMode) {
-        url = "https://thaiawesomedev.com/u_api/add_user.php";
+        url = "https://api.winner-english.com/u_api/add_user.php";
       } else {
-        url = "https://thaiawesomedev.com/u_api/edit_user.php";
+        url = "https://api.winner-english.com/u_api/edit_user.php";
 
         sendData.id = this.userEditDetails.id;
       }
@@ -390,7 +390,7 @@ export default {
     loadData() {
       this.loadingShow();
 
-      let url = "https://thaiawesomedev.com/u_api/get_user.php";
+      let url = "https://api.winner-english.com/u_api/get_user.php";
       axios
         .get(url)
         .then((res) => {

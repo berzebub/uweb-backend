@@ -343,7 +343,7 @@ export default {
       this.isDeleteData = false;
 
       let data = "";
-      let url = "https://thaiawesomedev.com/u_api/delete_country_data.php";
+      let url = "https://api.winner-english.com/u_api/delete_country_data.php";
 
       let sendData = {
         year: this.selectDelete.year,
@@ -447,7 +447,7 @@ export default {
 
               formData.append("file", this.files);
 
-              let url = "https://thaiawesomedev.com/u_api/upload_data.php";
+              let url = "https://api.winner-english.com/u_api/upload_data.php";
 
               let getFiles = await axios.post(url, formData, {
                 header: {
@@ -457,7 +457,7 @@ export default {
 
               console.log(getFiles);
 
-              url = "https://thaiawesomedev.com/u_api/add_upload_log.php";
+              url = "https://api.winner-english.com/u_api/add_upload_log.php";
 
               let setNewData = {
                 year: allTextLine[6],
@@ -470,7 +470,7 @@ export default {
               );
 
               if (setLog.data == "Success") {
-                url = "https://thaiawesomedev.com/u_api/get_upload_log.php";
+                url = "https://api.winner-english.com/u_api/get_upload_log.php";
 
                 let res = await axios.get(url);
 
@@ -523,15 +523,9 @@ export default {
 
       this.yearList = temp;
 
-      if (temp.length) {
-        let firstActive = this.yearList.filter((x) => {
-          return x.status == 1;
-        });
+      this.selectYear = temp[0].year;
 
-        this.selectYear = firstActive[0].year;
-
-        this.filter(this.selectYear);
-      }
+      this.filter(this.selectYear);
 
       this.loadingHide();
     },
@@ -550,7 +544,7 @@ export default {
     async loadData() {
       this.loadingShow();
 
-      let url = "https://thaiawesomedev.com/u_api/get_year.php";
+      let url = "https://api.winner-english.com/u_api/get_year.php";
 
       let res = await axios.get(url).catch((err) => {
         console.log(err);
@@ -560,7 +554,7 @@ export default {
         this.setDataTemp(res.data);
       }
 
-      url = "https://thaiawesomedev.com/u_api/get_upload_log.php";
+      url = "https://api.winner-english.com/u_api/get_upload_log.php";
 
       res = await axios.get(url).catch((err) => {
         console.log(err);

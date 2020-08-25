@@ -204,7 +204,7 @@ export default {
       }
 
       let data;
-      let url = "https://thaiawesomedev.com/u_api/check_login.php";
+      let url = "https://api.winner-english.com/u_api/check_login.php";
 
       let sendData = {
         username: this.username,
