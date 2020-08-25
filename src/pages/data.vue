@@ -67,7 +67,7 @@
                   (isDeleteData = true),
                     selectDelete.year = selectYear,selectDelete.code = item.code,selectDelete.country = item.name
                 "
-                v-if="dataShow.filter(x => x.data_year == selectYear && x.country == item.name).length"
+                v-if="dataShow.filter(x => x.year == selectYear && x.country == item.name).length"
               >
                 <q-icon size="xs" name="fas fa-trash-alt"></q-icon>
               </q-btn>
@@ -364,7 +364,7 @@ export default {
         });
     },
     filter(val) {
-      this.dataShow = this.dataList.filter((x) => x.data_year == val);
+      this.dataShow = this.dataList.filter((x) => x.year == val);
 
       // this.dataList.sort((a, b) => {
       //   return a.name > b.name ? 1 : -1;
@@ -372,11 +372,11 @@ export default {
     },
     showLastUpdate(country) {
       let hasLastUpdate = this.dataShow.filter((x) => {
-        return x.data_year == this.selectYear && x.country == country;
+        return x.year == this.selectYear && x.country == country;
       });
 
       if (hasLastUpdate.length) {
-        return "Last updated on " + hasLastUpdate[0].lastUpdate;
+        return "Last updated on " + hasLastUpdate[0].last_update;
       } else {
         return "Not Updated";
       }
@@ -427,7 +427,7 @@ export default {
 
             let checkDataLog = this.dataList.filter(
               (x) =>
-                x.data_year == allTextLine[6].toString() &&
+                x.year == allTextLine[6].toString() &&
                 x.country == getCountry[0].name
             );
 
@@ -506,9 +506,11 @@ export default {
 
       this.dataList = temp;
 
+      console.log(temp);
+
       if (temp.length) {
         this.dataShow = this.dataList.filter((x) => {
-          return x.data_year == this.selectYear;
+          return x.year == this.selectYear;
         });
       }
     },
