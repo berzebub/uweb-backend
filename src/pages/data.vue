@@ -455,8 +455,6 @@ export default {
                 },
               });
 
-              console.log(getFiles);
-
               url = "https://api.winner-english.com/u_api/add_upload_log.php";
 
               let setNewData = {
@@ -505,8 +503,6 @@ export default {
       });
 
       this.dataList = temp;
-
-      console.log(temp);
 
       if (temp.length) {
         this.dataShow = this.dataList.filter((x) => {
