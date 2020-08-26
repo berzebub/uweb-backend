@@ -383,7 +383,6 @@ export default {
     },
     uploadData() {
       console.clear();
-
       if (this.files == null) {
         this.notifyRed("Please choose a data file");
         return;
@@ -446,6 +445,8 @@ export default {
               let formData = new FormData();
 
               formData.append("file", this.files);
+              formData.append("country_name", getCountry[0].code);
+              formData.append("year", allTextLine[6]);
 
               let url = "https://api.winner-english.com/u_api/upload_data.php";
 
@@ -455,25 +456,27 @@ export default {
                 },
               });
 
-              url = "https://api.winner-english.com/u_api/add_upload_log.php";
+              console.log(getFiles);
 
-              let setNewData = {
-                year: allTextLine[6],
-                country: getCountry[0].name,
-              };
+              // url = "https://api.winner-english.com/u_api/add_upload_log.php";
 
-              let setLog = await axios.post(
-                url,
-                (data = JSON.stringify(setNewData))
-              );
+              // let setNewData = {
+              //   year: allTextLine[6],
+              //   country: getCountry[0].name,
+              // };
 
-              if (setLog.data == "Success") {
-                url = "https://api.winner-english.com/u_api/get_upload_log.php";
+              // let setLog = await axios.post(
+              //   url,
+              //   (data = JSON.stringify(setNewData))
+              // );
 
-                let res = await axios.get(url);
+              // if (setLog.data == "Success") {
+              //   url = "https://api.winner-english.com/u_api/get_upload_log.php";
 
-                this.setDataUpdateLog(res.data);
-              }
+              //   let res = await axios.get(url);
+
+              //   this.setDataUpdateLog(res.data);
+              // }
 
               this.isDialogUploadCompletely = true;
               this.files = null;
