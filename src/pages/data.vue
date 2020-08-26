@@ -456,27 +456,25 @@ export default {
                 },
               });
 
-              console.log(getFiles);
+              url = "https://api.winner-english.com/u_api/add_upload_log.php";
 
-              // url = "https://api.winner-english.com/u_api/add_upload_log.php";
+              let setNewData = {
+                year: allTextLine[6],
+                country: getCountry[0].name,
+              };
 
-              // let setNewData = {
-              //   year: allTextLine[6],
-              //   country: getCountry[0].name,
-              // };
+              let setLog = await axios.post(
+                url,
+                (data = JSON.stringify(setNewData))
+              );
 
-              // let setLog = await axios.post(
-              //   url,
-              //   (data = JSON.stringify(setNewData))
-              // );
+              if (setLog.data == "Success") {
+                url = "https://api.winner-english.com/u_api/get_upload_log.php";
 
-              // if (setLog.data == "Success") {
-              //   url = "https://api.winner-english.com/u_api/get_upload_log.php";
+                let res = await axios.get(url);
 
-              //   let res = await axios.get(url);
-
-              //   this.setDataUpdateLog(res.data);
-              // }
+                this.setDataUpdateLog(res.data);
+              }
 
               this.isDialogUploadCompletely = true;
               this.files = null;
