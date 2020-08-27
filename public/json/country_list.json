@@ -8,7 +8,7 @@
     {
         "id": "3",
         "name": "Australia",
-        "region": "Australia and New Zealand",
+        "region": "Pacific",
         "iso": "AUS"
     },
     {
@@ -20,7 +20,7 @@
     {
         "id": "5",
         "name": "Bangladesh",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "BGD"
     },
     {
@@ -38,7 +38,7 @@
     {
         "id": "8",
         "name": "Bhutan",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "BTN"
     },
     {
@@ -56,19 +56,19 @@
     {
         "id": "11",
         "name": "Brunei Darussalam",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "BRN"
     },
     {
         "id": "12",
         "name": "Cambodia",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "KHM"
     },
     {
         "id": "13",
         "name": "Canada",
-        "region": "Northern America",
+        "region": "North America",
         "iso": "CAN"
     },
     {
@@ -86,7 +86,7 @@
     {
         "id": "16",
         "name": "Cyprus",
-        "region": "Western Asia",
+        "region": "Southern Europe",
         "iso": "CYP"
     },
     {
@@ -116,7 +116,7 @@
     {
         "id": "21",
         "name": "Fiji",
-        "region": "Melanesia",
+        "region": "Pacific",
         "iso": "FJI"
     },
     {
@@ -146,7 +146,7 @@
     {
         "id": "26",
         "name": "Hong Kong, China",
-        "region": "Eastern Asia",
+        "region": "East and North-East Asia",
         "iso": "HKG"
     },
     {
@@ -164,13 +164,13 @@
     {
         "id": "29",
         "name": "India",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "IND"
     },
     {
         "id": "30",
         "name": "Indonesia",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "IDN"
     },
     {
@@ -188,31 +188,31 @@
     {
         "id": "33",
         "name": "Japan",
-        "region": "Eastern Asia",
+        "region": "East and North-East Asia",
         "iso": "JPN"
     },
     {
         "id": "34",
         "name": "Kazakhstan",
-        "region": "Central Asia",
+        "region": "North and Central Asia",
         "iso": "KAZ"
     },
     {
         "id": "35",
-        "name": "Kyrgyz Republic",
-        "region": "Central Asia",
+        "name": "Kyrgyzstan",
+        "region": "North and Central Asia",
         "iso": "KGZ"
     },
     {
         "id": "36",
         "name": "Republic of Korea",
-        "region": "Eastern Asia",
+        "region": "East and North-East Asia",
         "iso": "KOR"
     },
     {
         "id": "37",
-        "name": "Lao People's Democratic Republic",
-        "region": "South-eastern Asia",
+        "name": "Lao PDR",
+        "region": "South-East Asia",
         "iso": "LAO"
     },
     {
@@ -236,7 +236,7 @@
     {
         "id": "41",
         "name": "Malaysia",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "MYS"
     },
     {
@@ -248,7 +248,7 @@
     {
         "id": "43",
         "name": "Maldives",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "MDV"
     },
     {
@@ -260,13 +260,13 @@
     {
         "id": "45",
         "name": "Mongolia",
-        "region": "Eastern Asia",
+        "region": "East and North-East Asia",
         "iso": "MNG"
     },
     {
         "id": "46",
         "name": "Nepal",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "NPL"
     },
     {
@@ -284,7 +284,7 @@
     {
         "id": "49",
         "name": "Pakistan",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "PAK"
     },
     {
@@ -302,7 +302,7 @@
     {
         "id": "52",
         "name": "Philippines",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "PHL"
     },
     {
@@ -319,8 +319,8 @@
     },
     {
         "id": "55",
-        "name": "People's Republic of China",
-        "region": "Eastern Asia",
+        "name": "China",
+        "region": "East and North-East Asia",
         "iso": "CHN"
     },
     {
@@ -343,14 +343,14 @@
     },
     {
         "id": "59",
-        "name": "Russia",
-        "region": "Eastern Europe",
+        "name": "Russia Federation",
+        "region": "North and Central Asia",
         "iso": "RUS"
     },
     {
         "id": "60",
         "name": "Singapore",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "SGP"
     },
     {
@@ -362,7 +362,7 @@
     {
         "id": "62",
         "name": "Sri Lanka",
-        "region": "Southern Asia",
+        "region": "South and South-West Asia",
         "iso": "LKA"
     },
     {
@@ -391,20 +391,20 @@
     },
     {
         "id": "67",
-        "name": "Taipei,China",
-        "region": "Eastern Asia",
+        "name": "Taiwan Province of China",
+        "region": "East and North-East Asia",
         "iso": "TWN"
     },
     {
         "id": "68",
         "name": "Thailand",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "THA"
     },
     {
         "id": "69",
         "name": "Turkey",
-        "region": "Western Asia",
+        "region": "South and South-West Asia",
         "iso": "TUR"
     },
     {
@@ -422,7 +422,7 @@
     {
         "id": "72",
         "name": "United States",
-        "region": "Northern America",
+        "region": "North America",
         "iso": "USA"
     },
     {
@@ -434,7 +434,7 @@
     {
         "id": "74",
         "name": "Viet Nam",
-        "region": "South-eastern Asia",
+        "region": "South-East Asia",
         "iso": "VNM"
     }
 ]
