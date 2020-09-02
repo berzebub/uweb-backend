@@ -541,6 +541,10 @@ export default {
         tempOptions.push(newData);
       });
 
+      tempOptions.sort((a, b) => {
+        return a.name > b.name ? 1 : -1;
+      });
+
       this.countryList = tempOptions;
     },
     async loadData() {
