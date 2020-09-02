@@ -156,7 +156,7 @@
 
         <q-card-section class="q-pt-lg" align="center">
           <div class="q-pt-md q-pb-sm">
-            <span style="font-size:16px;">Add “{{yearSelected}}” completely</span>
+            <span style="font-size:16px;">Add “{{yearAdded}}” completely</span>
           </div>
         </q-card-section>
 
@@ -207,49 +207,8 @@ export default {
   data() {
     return {
       selectDeleteYear: "",
-      yearSelected: 2001,
-      yearOptions: [
-        2001,
-        2002,
-        2003,
-        2004,
-        2005,
-        2006,
-        2007,
-        2008,
-        2009,
-        2010,
-        2011,
-        2012,
-        2013,
-        2014,
-        2015,
-        2016,
-        2017,
-        2018,
-        2019,
-        2020,
-        2021,
-        2022,
-        2023,
-        2024,
-        2025,
-        2026,
-        2027,
-        2028,
-        2029,
-        2030,
-        2031,
-        2032,
-        2033,
-        2034,
-        2035,
-        2036,
-        2037,
-        2038,
-        2039,
-        2040,
-      ],
+      yearSelected: null,
+      yearOptions: [],
       pagination: {
         page: 1,
         rowsPerPage: 0,
@@ -282,6 +241,7 @@ export default {
       isSaveCompletely: false,
 
       isDialogDeleteSuccess: false,
+      yearAdded: "",
     };
   },
   methods: {
@@ -337,6 +297,7 @@ export default {
       let sendData = {
         year: this.yearSelected,
       };
+      this.yearAdded = this.yearSelected;
 
       let url = "https://api.winner-english.com/u_api/add_year.php";
 
@@ -359,8 +320,9 @@ export default {
         return Number(a.year) - Number(b.year);
       });
       this.yearList = temp;
+      this.setYearOptions();
 
-      this.loadingHide();
+      // this.loadingHide();
     },
     loadData() {
       this.loadingShow();
@@ -375,6 +337,37 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    setYearOptions() {
+      this.yearOptions = [];
+      let date = new Date();
+      let year = date.getFullYear();
+      let yearInData = this.yearList.map((x) => Number(x.year));
+      for (let i = 2001; i <= 2040; i++) {
+        if (!yearInData.includes(i)) {
+          this.yearOptions.push(i);
+        }
+      }
+      let _this = this;
+      function recursionYear(year) {
+        if (_this.yearList.findIndex((x) => Number(x.year) == year) > -1) {
+          // In case found year in yearDataList
+          let nextYear = _this.yearOptions.map((x) => {
+            if (x > year) {
+              return x;
+            }
+          });
+          nextYear = nextYear.filter((x) => x);
+          recursionYear(nextYear[0]);
+        } else {
+          _this.yearSelected = year;
+        }
+      }
+      // if (yearInData.includes(year)) {
+      recursionYear(year);
+      // }
+      // Make default year to current year
+      this.loadingHide();
     },
   },
   mounted() {

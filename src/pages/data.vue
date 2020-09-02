@@ -351,6 +351,9 @@ export default {
         country: this.selectDelete.country,
       };
 
+      // console.log(sendData);
+      // return;
+
       axios
         .post(url, (data = sendData))
         .then((res) => {
