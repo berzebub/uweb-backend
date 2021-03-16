@@ -19,9 +19,19 @@ const routes = [
         name: "data"
       },
       {
+        path: "/countrybrief",
+        component: () => import("pages/countrybrief.vue"),
+        name: "countrybrief"
+      },
+      {
         path: "/user",
         component: () => import("pages/user.vue"),
         name: "user"
+      },
+      {
+        path: "/userfromweb",
+        component: () => import("pages/userfromweb.vue"),
+        name: "userfromweb"
       },
       {
         path: "/profile",

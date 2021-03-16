@@ -4,7 +4,9 @@
       <q-toolbar class="bg12">
         <q-toolbar-title v-if="$route.name == 'year'">Year</q-toolbar-title>
         <q-toolbar-title v-if="$route.name == 'data'">Data</q-toolbar-title>
-        <q-toolbar-title v-if="$route.name == 'user'">User</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'user'">Admin</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'countrybrief'">Country Brief</q-toolbar-title>
+        <q-toolbar-title v-if="$route.name == 'userfromweb'">User</q-toolbar-title>
         <q-toolbar-title v-if="$route.name == 'profile'">Profile</q-toolbar-title>
         <q-toolbar-title v-if="$route.name == 'profileEdit'">
           Profile >
@@ -23,6 +25,7 @@
     >
       <div class="row full-height">
         <div class="col-12" align="center">
+          <!-- Year -->
           <div
             v-ripple
             :class="$route.name == 'year' ? 'bg4' : ''"
@@ -42,6 +45,7 @@
             </div>
           </div>
 
+          <!-- data -->
           <div
             v-ripple
             :class="$route.name == 'data' ? 'bg4 ' : ''"
@@ -61,6 +65,50 @@
             </div>
           </div>
 
+          <!-- Country Brief -->
+          <div
+            v-ripple
+            :class="$route.name == 'countrybrief' ? 'bg4 ' : ''"
+            class="relative-position cursor-pointer"
+            @click="$route.name == 'countrybrief' ? null : $router.push('/countrybrief')"
+          >
+            <div
+              class="absolute"
+              style="left:0;"
+              :class="$route.name == 'countrybrief' ? 'border-active' : 'border-noactive'"
+            ></div>
+            <div class="q-py-md">
+              <q-icon size="md" name="fas fa-globe-americas"></q-icon>
+              <div class="q-mt-xs text-bold">
+                <span>
+                  Country
+                  <br />Brief
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- user -->
+          <div
+            v-ripple
+            :class="$route.name == 'userfromweb' ? 'bg4 ' : ''"
+            class="relative-position cursor-pointer"
+            @click="$route.name == 'userfromweb' ? null : $router.push('/userfromweb')"
+          >
+            <div
+              class="absolute"
+              style="left:0;"
+              :class="$route.name == 'userfromweb' ? 'border-active' : 'border-noactive'"
+            ></div>
+            <div class="q-py-md">
+              <q-icon size="md" name="fas fa-user-friends"></q-icon>
+              <div class="q-mt-xs text-bold">
+                <span>User</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin -->
           <div
             v-if="user.status == 'admin'"
             v-ripple
@@ -76,7 +124,7 @@
             <div class="q-py-md">
               <q-icon size="md" name="fas fa-user-plus"></q-icon>
               <div class="q-mt-xs text-bold">
-                <span>User</span>
+                <span>Admin</span>
               </div>
             </div>
           </div>
