@@ -343,7 +343,7 @@ export default {
       this.isDeleteData = false;
 
       let data = "";
-      let url = "https://api.winner-english.com/u_api/delete_country_data.php";
+      let url = this.serverPath + "u_api/delete_country_data.php";
 
       let sendData = {
         year: this.selectDelete.year,
@@ -451,15 +451,16 @@ export default {
               formData.append("country_name", getCountry[0].code);
               formData.append("year", allTextLine[6]);
 
-              let url = "https://api.winner-english.com/u_api/upload_data.php";
+              let url = this.serverPath + "u_api/upload_data.php";
 
               let getFiles = await axios.post(url, formData, {
                 header: {
                   "Content-Type": "multipart/form-data",
                 },
               });
+              console.log(getFiles);
 
-              url = "https://api.winner-english.com/u_api/add_upload_log.php";
+              url = this.serverPath + "u_api/add_upload_log.php";
 
               let setNewData = {
                 year: allTextLine[6],
@@ -472,7 +473,7 @@ export default {
               );
 
               if (setLog.data == "Success") {
-                url = "https://api.winner-english.com/u_api/get_upload_log.php";
+                url = this.serverPath + "u_api/get_upload_log.php";
 
                 let res = await axios.get(url);
 
@@ -550,7 +551,7 @@ export default {
     async loadData() {
       this.loadingShow();
 
-      let url = "https://api.winner-english.com/u_api/get_year.php";
+      let url = this.serverPath + "u_api/get_year.php";
 
       let res = await axios.get(url).catch((err) => {
         console.log(err);
@@ -560,7 +561,7 @@ export default {
         this.setDataTemp(res.data);
       }
 
-      url = "https://api.winner-english.com/u_api/get_upload_log.php";
+      url = this.serverPath + "u_api/get_upload_log.php";
 
       res = await axios.get(url).catch((err) => {
         console.log(err);
