@@ -8,6 +8,7 @@
           no-caps
           class="bg4 font-content"
           style="width:200px;border-radius:10px"
+          @click="exportData()"
         ></q-btn>
       </div>
 
@@ -32,9 +33,10 @@
               <q-td key="password" :props="props">{{ props.row.password}}</q-td>
               <q-td key="country" :props="props">{{ props.row.country}}</q-td>
               <q-td key="organization" :props="props">{{ props.row.organization}}</q-td>
+              <q-td key="subscribe" :props="props">{{ props.row.subscribe}}</q-td>
               <q-td key="delete" :props="props">
                 <q-icon
-                  @click="deleteUser(props.row.id)"
+                  @click="deleteUserPromt(props.row.id, props.row.email)"
                   class="cursor-pointer"
                   size="18px"
                   name="fas fa-trash-alt"
@@ -45,6 +47,72 @@
         </q-table>
       </div>
     </div>
+
+    <!-- Dialog confirm delete -->
+    <q-dialog v-model="isDialogDelete">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Are you sure?</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span style="font-size:16px;">
+              Do you really want to delete
+              <br />
+              {{showNameDelete}} ?
+            </span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md"
+              style="width:150px;border-radius:10px;"
+              outline
+              label="Cancel"
+              color="black"
+              v-close-popup
+              no-caps
+            />
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="Delete"
+              no-caps
+              @click="deleteUser()"
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Dialog Delete Completely -->
+    <q-dialog v-model="isDialogDeleteCompletely">
+      <q-card style="width:400px;border-radius:10px;">
+        <q-card-section class="bg4 q-py-sm" align="center">
+          <span style="font-size:20px;">Delete completely</span>
+        </q-card-section>
+
+        <q-card-section class="q-pt-lg" align="center">
+          <div class="q-pt-md q-pb-sm">
+            <span style="font-size:16px;">Delete “{{showNameDelete}}” complete</span>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="q-py-lg" align="center">
+          <div>
+            <q-btn
+              class="font-content q-mx-md bg4"
+              style="width:150px;border-radius:10px;"
+              label="OK"
+              v-close-popup
+            />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -52,6 +120,10 @@
 export default {
   data() {
     return {
+      isDialogDelete: false,
+      userIdDelete: "",
+      isDialogDeleteCompletely: false,
+      showNameDelete: "",
       pagination: { rowsPerPage: 50 },
       columns: [
         {
@@ -89,6 +161,13 @@ export default {
           style: "width:150px",
         },
         {
+          name: "subscribe",
+          align: "center",
+          label: "Subscribe",
+          field: "subscribe",
+          style: "width:150px",
+        },
+        {
           name: "delete",
           align: "center",
           label: "Delete",
@@ -100,6 +179,9 @@ export default {
     };
   },
   methods: {
+    exportData() {
+      console.log("export Data");
+    },
     loadUser() {
       this.loadingShow();
       let url = this.serverPath + "u_api/get_userweb.php";
@@ -121,7 +203,13 @@ export default {
           this.loadingHide();
         });
     },
-    deleteUser(id) {
+    deleteUserPromt(id, email) {
+      this.showNameDelete = email;
+      this.isDialogDelete = true;
+      this.userIdDelete = id;
+    },
+    deleteUser() {
+      let id = this.userIdDelete;
       let url = this.serverPath + "u_api/delete_userweb.php";
 
       axios
@@ -138,6 +226,8 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      this.isDialogDelete = false;
+      this.isDialogDeleteCompletely = true;
     },
   },
   filters: {
