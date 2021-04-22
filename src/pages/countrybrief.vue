@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import json from "../../public/json/country_list.json";
+import json from "../../public/json/country_list_short.json";
 export default {
   data() {
     return {
@@ -80,6 +80,14 @@ export default {
         {
           label: "Step 6 : Participation in GVCs",
           value: 6,
+        },
+        {
+          label: "Step 7 : Backward linkages",
+          value: 7,
+        },
+        {
+          label: "Step 8 : Forward linkages",
+          value: 8,
         },
       ],
       dataInput: {
@@ -170,6 +178,20 @@ export default {
         this.loadingHide();
         this.notifyGreen("Action completely");
       }
+      //step 7
+      else if (this.dataInput.dataSet == 7) {
+        let url = this.serverPath + "u_api/cbstep7.php";
+        let res = await axios.post(url, JSON.stringify(this.dataInput));
+        this.loadingHide();
+        this.notifyGreen("Action completely");
+      }
+      //step 8
+      else if (this.dataInput.dataSet == 8) {
+        let url = this.serverPath + "u_api/cbstep8.php";
+        let res = await axios.post(url, JSON.stringify(this.dataInput));
+        this.loadingHide();
+        this.notifyGreen("Action completely");
+      }
     },
     setDataTemp(data) {
       this.year = [];
@@ -189,8 +211,6 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.dataInput.year = 2017;
-    this.dataInput.country = "THA";
   },
 };
 </script>
