@@ -122,13 +122,17 @@ export default {
           console.log(err);
         });
       this.countryList = [];
-      json.sort((a, b) => (a.iso > b.iso ? 1 : 0));
+
+      json.sort((a, b) => (a.name > b.name ? 1 : -1));
+
       json.forEach((x) => {
-        let temp = {
-          label: x.name,
-          value: x.iso,
-        };
-        this.countryList.push(temp);
+        if (x.iso != "RoW" && x.iso != "RoLAC") {
+          let temp = {
+            label: x.name,
+            value: x.iso,
+          };
+          this.countryList.push(temp);
+        }
       });
     },
     async genData() {
