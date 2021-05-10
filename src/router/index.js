@@ -37,7 +37,7 @@ import json from "../../public/json/country_list.json";
 Vue.mixin({
   data() {
     return {
-      serverPath: "http://localhost/"
+      serverPath: "https://riva.negotiatetrade.org/u_api/"
     }
   },
   methods: {
