@@ -28,12 +28,13 @@
           </template>
           <template v-slot:body="props">
             <q-tr :props="props">
-              <q-td key="date" :props="props">{{ props.row.datetime | dateTimeShow}}</q-td>
+              <q-td key="date" :props="props">{{ props.row.dateTime }}</q-td>
               <q-td key="email" :props="props">{{ props.row.email}}</q-td>
               <q-td key="password" :props="props">{{ props.row.password}}</q-td>
               <q-td key="country" :props="props">{{ props.row.country}}</q-td>
               <q-td key="organization" :props="props">{{ props.row.organization}}</q-td>
-              <q-td key="subscribe" :props="props">{{ props.row.subscribe}}</q-td>
+              <q-td key="validation" :props="props">{{ props.row.is_validation==1?'yes':'no'}}</q-td>
+              <q-td key="subscribe" :props="props">{{ props.row.is_subscribe==1?'yes':'no'}}</q-td>
               <q-td key="delete" :props="props">
                 <q-icon
                   @click="deleteUserPromt(props.row.id, props.row.email)"
@@ -161,10 +162,17 @@ export default {
           style: "width:150px",
         },
         {
+          name: "validation",
+          align: "center",
+          label: "Validation",
+          field: "is_validation",
+          style: "width:150px",
+        },
+        {
           name: "subscribe",
           align: "center",
           label: "Subscribe",
-          field: "subscribe",
+          field: "is_subscribe",
           style: "width:150px",
         },
         {
@@ -184,16 +192,14 @@ export default {
     },
     loadUser() {
       this.loadingShow();
+      this.userData = [];
       let url = this.serverPath + "u_api/get_userweb.php";
       axios
         .get(url)
         .then((res) => {
+          console.log(res.data);
           if (res.data) {
-            let temp = res.data.sort(
-              (a, b) => Number(a.datetime) - Number(b.datetime)
-            );
-
-            this.userData = temp;
+            this.userData = res.data;
           }
 
           this.loadingHide();
@@ -215,49 +221,17 @@ export default {
       axios
         .post(url, JSON.stringify(id))
         .then((res) => {
-          if (res.data) {
-            let temp = res.data.sort(
-              (a, b) => Number(a.datetime) - Number(b.datetime)
-            );
-
-            this.userData = temp;
-          }
+          this.loadUser();
         })
         .catch((err) => {
           console.log(err);
         });
+      console.log(this.userData);
       this.isDialogDelete = false;
       this.isDialogDeleteCompletely = true;
     },
   },
-  filters: {
-    dateTimeShow: function (value) {
-      var a = new Date(value * 1000);
-      var months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      var year = a.getFullYear();
-      var month = months[a.getMonth()];
-      var date = a.getDate();
-      var hour = a.getHours();
-      var min = a.getMinutes();
-      var sec = a.getSeconds();
-      var time =
-        date + " " + month + " " + year + " | " + hour + ":" + min + ":" + sec;
-      return time;
-    },
-  },
+
   mounted() {
     this.loadUser();
   },
